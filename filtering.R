@@ -37,17 +37,36 @@ dtResult
 dtResult2 <- dfToFilter[dfToFilter$first %% 2 == 1 & dfToFilter$second < 5,]
 dtResult2
 
-dtRow <- dtToFilter[,2]
+dtRow <- dfToFilter[,2]
 dtRow
 
-dtRows <- dtToFilter[,c(1,3)]
+dtRows <- dfToFilter[,c(1,3)]
 dtRows
 
-dtRowsByName <- dtToFilter[,c('first','second')]
+dtRowsByName <- dfToFilter[,c('first','second')]
 dtRowsByName
 
-dtRowsByIndexList <- list(dtToFilter$first, dtToFilter$second)
+dtRowsByIndexList <- list(dfToFilter$first, dfToFilter$second)
 dtRowsByIndexList
 
-dtRowsByIndex <- matrix(c(dtToFilter$first, dtToFilter$second), nrow=3)
+dtRowsByIndex <- matrix(c(dfToFilter$first, dfToFilter$second), nrow=3)
 dtRowsByIndex
+typeof(dtRowsByIndex)
+
+rm(vectorToFilter)
+rm(vResult)
+rm(listToFilter)
+rm(lResult)
+rm(nlistToFilter)
+rm(nlResult)
+rm(tListToFilter)
+rm(tlResult)
+rm(tlResult2)
+rm(dfToFilter)
+rm(dtResult)
+rm(dtResult2)
+rm(dtRow)
+rm(dtRows)
+rm(dtRowsByName)
+rm(dtRowsByIndexList)
+rm(dtRowsByIndex)

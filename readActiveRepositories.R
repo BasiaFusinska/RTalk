@@ -1,5 +1,7 @@
 
-events <- readEventsLists(file, list("PushEvent", "CreateEvent", "PullRequestEvent"))
+# Read events 
+events <- readEventsLists(fileName, list("PushEvent", "CreateEvent", "PullRequestEvent"))
+events[[1]]$repo$id
 
 repositoryUrls <- lapply(events, function(x) {
   url = x$repo$url
@@ -13,15 +15,14 @@ head(uniqueUrls)
 urlsDataFrame <- data.frame(do.call(rbind, uniqueUrls))
 head(urlsDataFrame)
 
-urlsDataFrame1 = urlsDataFrame
 
+# Read languages
 googleDataFile = "Data/Google data.csv"
 
 googleData <- read.csv(file=googleDataFile, sep=",",head=TRUE)
 
 head(googleData)
 
-googleData$url <- NULL
 googleData$url <- apply(googleData, 1, function(row){
   url = row[2]
   substr(url, nchar("https://github.com/")+1, nchar(url))
@@ -29,19 +30,25 @@ googleData$url <- apply(googleData, 1, function(row){
 
 head(googleData)
 
-ids = googleData
-urlsDataFrame$language <- NULL
+
+# Combining data
 urlsDataFrame$language <- apply(urlsDataFrame, 1, function(row){
-  language = ids[as.character(ids$url) == as.character(row[2]), ]$repository_language
+  language = googleData[as.character(googleData$url) == as.character(row[2]), ]$repository_language
   
-  #because some ids have many hits
+  #because some googleData have many hits
   as.character(language[1])
 })
 
 head(urlsDataFrame)
 
-languages <- table(urlsDataFrame[as.character(urlsDataFrame$language) != "null",]$language)
-sortedLanguages <- sort(languages[languages > 50], decreasing=TRUE)
+languages <- table(urlsDataFrame$language)
+head(languages)
+barplot(languages)
+languages <- sort(languages, decreasing=TRUE)
+barplot(languages)
 
-barplot(sortedLanguages)
+languages <- table(urlsDataFrame[as.character(urlsDataFrame$language) != "null",]$language)
+languages <- sort(languages[languages > 50], decreasing=TRUE)
+
+barplot(languages)
 

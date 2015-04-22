@@ -1,4 +1,6 @@
-pullRequests <- readEvents(file, "PullRequestEvent")
+fileName <- "Data/2015-01-01-15.json"
+
+pullRequests <- readEvents(fileName, "PullRequestEvent")
 
 repositoryData <- lapply(pullRequests, function(x) {
     c(id=x$payload$pull_request$base$repo$id, 
@@ -12,9 +14,11 @@ summary(repositoryDataFrame)
 
 uniqueData <- unique(repositoryData)
 repositoryDataFrame <- data.frame(do.call(rbind, uniqueData))
+#write.csv(repositoryDataFrame, file="Data/2015-01-01-15_pullRequests.csv")
+
+summary(repositoryDataFrame)
 
 languages <- table(repositoryDataFrame$language)
-write.csv(repositoryDataFrame, file="Data/2015-01-01-15_pullRequests.csv")
 
 head(languages)
 
@@ -23,13 +27,20 @@ ln <- languagesNames[2]
 ln
 repositoryDataFrame$id[repositoryDataFrame$language == ln]
 
-reducedDataFrame <- repositoryDataFrame[
+repositoryDataFrame <- repositoryDataFrame[
   as.character(repositoryDataFrame$language) != as.character(repositoryDataFrame$id),]
 
-languages <- table(reducedDataFrame$language)
+languages <- table(repositoryDataFrame$language)
 head(languages)
 
-barplot(languages[languages > 5])
-sortedLanguages <- sort(languages[languages > 5], decreasing=TRUE)
+languages <- languages[languages > 5]
+barplot(languages)
+languages <- sort(languages[languages > 5], decreasing=TRUE)
+languagesNames <- names(languages)
+languagesNames
 
-barplot(sortedLanguages)
+barplot(languages)
+
+rm(uniqueData)
+rm(repositoryData)
+rm(ln)

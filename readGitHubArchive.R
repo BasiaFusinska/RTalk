@@ -1,8 +1,6 @@
-install.packages("rjson")
+
 library("rjson")
 
-
-file <- "Data/2015-01-01-15.json"
 
 readEvents <- function(file, eventName) {
   lines <- readLines(file)

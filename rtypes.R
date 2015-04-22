@@ -32,7 +32,6 @@ myNamedVector$a
 
 myNamedList <- list(a="a", b="b", c="c")
 myNamedList
-typeof(myNamedList)
 
 myNamedList[1]
 myNamedList[[1]]
@@ -43,7 +42,7 @@ myNamedList$a
 dataCombined = c(first=c(1, 2, 3), second=c(4, 5, 6))
 dataCombined
 typeof(dataCombined)
-dataCombined$first1
+dataCombined$first
 
 dataTableList = list(first=c(1, 2, 3), second=c(4, 5, 6))
 dataTableList
@@ -60,9 +59,19 @@ typeof(dataFrame)
 
 summary(dataFrame)
 
-install.packages("data.table")
 library(data.table)
 
 dataTable <- data.table(dataTableList)
 dataTable
 typeof(dataTable)
+
+rm(myChar)
+rm(myVector)
+rm(myList)
+
+rm(myNamedVector)
+rm(myNamedList)
+rm(dataCombined)
+rm(dataTableList)
+rm(dataFrame)
+rm(dataTable)
