@@ -1,29 +1,29 @@
-library("rjson")
+#library("rjson")
 
-dataFolder = "C:/Personal/Data/Week"
+dataFolder = "Data/Week"
 mondayFolder = paste(dataFolder, "/Monday/2015-01-12-", sep="")
 wednesdayFolder = paste(dataFolder, "/Wednesday/2015-01-14-", sep="")
 fridayFolder = paste(dataFolder, "/Friday/2015-01-16-", sep="")  
 
 readEventsLineByLine <- function(file, eventNames) {
-  pushes = 0
+  eventCount = 0
   
   while(length(line <- readLines(file, n = 1, warn = FALSE)) > 0) {
     json <- fromJSON(line)
     
     if (json$type %in% eventNames) {
-      pushes <- pushes + 1
+      eventCount <- eventCount + 1
     }
   }
-  return(pushes)  
+  return(eventCount)  
 }
 
-readFolder = function(folderName) {
+readDayFolder = function(folderName) {
   pushes = integer()
   for(n in 0:23) {
     fileName = paste(folderName, n, ".json", sep="")
     stream <- file(fileName, open="r")
-    pushesPerHour = readEventsLineByLine(stream, list("PullRequestEvent"))
+    pushesPerHour = readEventsLineByLine(stream, list("PushEvent"))
     close(stream)
     pushes = c(pushes, pushesPerHour)
   }
@@ -34,9 +34,9 @@ readFolder = function(folderName) {
 hours = 0:23
 week = data.frame(hours)
 
-mondayPushes = readFolder(mondayFolder)
-wednesdayPushes = readFolder(wednesdayFolder)
-fridayPushes = readFolder(fridayFolder)
+mondayPushes = readDayFolder(mondayFolder)
+wednesdayPushes = readDayFolder(wednesdayFolder)
+fridayPushes = readDayFolder(fridayFolder)
 
 week$Monday = mondayPushes
 week$Wednesday = wednesdayPushes
@@ -44,6 +44,3 @@ week$Friday = fridayPushes
 week
 
 write.csv(week, file="Data/weekData.csv")
-
-
-
