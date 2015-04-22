@@ -1,5 +1,3 @@
-install.packages("devtools")
-devtools::install_github("twitter/AnomalyDetection")
 library(AnomalyDetection)
 
 data(raw_data)

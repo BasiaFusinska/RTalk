@@ -1,8 +1,4 @@
-install.packages("devtools") 
-
-devtools::install_github('javiljoen/LTTB')
 library(LTTB)
-
 
 plot(timeseries, type='l', col="blue", ylim=c(0,100), ann=FALSE)
 
