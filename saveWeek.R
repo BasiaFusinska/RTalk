@@ -1,4 +1,3 @@
-#library("rjson")
 
 dataFolder = "Data/Week"
 mondayFolder = paste(dataFolder, "/Monday/2015-01-12-", sep="")
@@ -44,3 +43,14 @@ week$Friday = fridayPushes
 week
 
 write.csv(week, file="Data/weekData.csv")
+
+rm(dataFolder)
+rm(mondayFolder)
+rm(wednesdayFolder)
+rm(fridayFolder)
+rm(hours)
+rm(week)
+rm(mondayPushes)
+rm(wednesdayPushes)
+rm(fridayPushes)
+
