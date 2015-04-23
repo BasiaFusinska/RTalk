@@ -43,6 +43,7 @@ dataCombined = c(first=c(1, 2, 3), second=c(4, 5, 6))
 dataCombined
 typeof(dataCombined)
 dataCombined$first
+dataCombined$first1
 
 dataTableList = list(first=c(1, 2, 3), second=c(4, 5, 6))
 dataTableList

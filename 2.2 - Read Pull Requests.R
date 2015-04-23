@@ -1,36 +1,36 @@
 fileName <- "Data/2015-01-01-15.json"
 
-pullRequests <- readEvents(fileName, "PullRequestEvent")
+pullRequestEvents <- readEvents(fileName, "PullRequestEvent")
 
-repositoryData <- lapply(pullRequests, function(x) {
+pullRequests <- lapply(pullRequestEvents, function(x) {
     c(id=x$payload$pull_request$base$repo$id, 
       language=x$payload$pull_request$base$repo$language)
    })
 
-repositoryDataFrame <- data.frame(do.call(rbind, repositoryData))
-head(repositoryDataFrame)
+dfPullRequests <- data.frame(do.call(rbind, pullRequests))
+head(dfPullRequests)
 
-summary(repositoryDataFrame)
+summary(dfPullRequests)
 
-uniqueData <- unique(repositoryData)
-repositoryDataFrame <- data.frame(do.call(rbind, uniqueData))
-#write.csv(repositoryDataFrame, file="Data/2015-01-01-15_pullRequests.csv")
+uniqueData <- unique(pullRequests)
+dfPullRequests <- data.frame(do.call(rbind, uniqueData))
 
-summary(repositoryDataFrame)
+summary(dfPullRequests)
 
-languages <- table(repositoryDataFrame$language)
+languages <- table(dfPullRequests$language)
 
 head(languages)
 
 languagesNames <- names(languages)
+languagesNames
 ln <- languagesNames[2]
 ln
-repositoryDataFrame$id[repositoryDataFrame$language == ln]
+dfPullRequests$id[dfPullRequests$language == ln]
 
-repositoryDataFrame <- repositoryDataFrame[
-  as.character(repositoryDataFrame$language) != as.character(repositoryDataFrame$id),]
+dfPullRequests <- dfPullRequests[
+  as.character(dfPullRequests$language) != as.character(dfPullRequests$id),]
 
-languages <- table(repositoryDataFrame$language)
+languages <- table(dfPullRequests$language)
 head(languages)
 
 languages <- languages[languages > 5]
@@ -42,5 +42,9 @@ languagesNames
 barplot(languages)
 
 rm(uniqueData)
-rm(repositoryData)
+rm(pullRequestEvents)
 rm(ln)
+rm(languages)
+rm(languagesNames)
+rm(pullRequests)
+rm(dfPullRequests)

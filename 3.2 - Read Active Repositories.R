@@ -52,3 +52,10 @@ languages <- sort(languages[languages > 50], decreasing=TRUE)
 
 barplot(languages)
 
+rm(events)
+rm(repositoryUrls)
+rm(uniqueUrls)
+rm(urlsDataFrame)
+rm(googleDataFile)
+rm(googleData)
+rm(languages)
