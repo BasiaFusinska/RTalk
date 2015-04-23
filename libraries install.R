@@ -11,3 +11,6 @@ install.packages("devtools")
 devtools::install_github('javiljoen/LTTB')
 
 devtools::install_github("twitter/AnomalyDetection")
+
+install.packages("ggplot2")
+
