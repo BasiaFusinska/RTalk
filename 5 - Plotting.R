@@ -1,12 +1,10 @@
 library("ggplot2")
 
-
 #---------------line plots--------------------------
 
 #dots
 qplot(hours, Monday, data=weekData)
 #colors
-qplot(hours, Monday, data=weekData, color="Monday")
 qplot(hours, Monday, data=weekData, color="Monday")
 
 qplot(hours, Monday, data=weekData, color=daypart)

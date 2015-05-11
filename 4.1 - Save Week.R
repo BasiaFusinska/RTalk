@@ -33,9 +33,9 @@ readDayFolder = function(folderName) {
 hours = 0:23
 week = data.frame(hours)
 
-mondayPushes = readDayFolder(mondayFolder)
-wednesdayPushes = readDayFolder(wednesdayFolder)
-fridayPushes = readDayFolder(fridayFolder)
+#mondayPushes = readDayFolder(mondayFolder)
+#wednesdayPushes = readDayFolder(wednesdayFolder)
+#fridayPushes = readDayFolder(fridayFolder)
 
 week$Monday = mondayPushes
 week$Wednesday = wednesdayPushes
@@ -50,7 +50,3 @@ rm(wednesdayFolder)
 rm(fridayFolder)
 rm(hours)
 rm(week)
-rm(mondayPushes)
-rm(wednesdayPushes)
-rm(fridayPushes)
-
