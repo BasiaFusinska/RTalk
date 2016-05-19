@@ -1,50 +1,48 @@
 fileName <- "Data/2015-01-01-15.json"
 
-pullRequestEvents <- readEvents(fileName, "PullRequestEvent")
+# Read Pull Requests
+pullRequests <- readPR(fileName)
 
-pullRequests <- lapply(pullRequestEvents, function(x) {
-    c(id=x$payload$pull_request$base$repo$id, 
-      language=x$payload$pull_request$base$repo$language)
-   })
+# Select only repository id and language
+select <- function(event) {
+  id <- event$payload$pull_request$base$repo$id
+  language <- event$payload$pull_request$base$repo$language
+  
+  if (is.null(language))
+    c(ID=id, Language='')
+  else
+    c(ID=id, Language=language)
+}
 
-dfPullRequests <- data.frame(do.call(rbind, pullRequests))
-head(dfPullRequests)
+pullRequests <- sapply(pullRequests, select)
 
-summary(dfPullRequests)
+# Create data frame
+repositoriesLanguages <- data.frame(
+  id = pullRequests['ID',],
+  language = pullRequests['Language',])
 
-uniqueData <- unique(pullRequests)
-dfPullRequests <- data.frame(do.call(rbind, uniqueData))
+# summary of data
+head(repositoriesLanguages)
+summary(repositoriesLanguages)
 
-summary(dfPullRequests)
+# Only unique repositories
+repositoriesLanguages <- unique(repositoriesLanguages)
+head(repositoriesLanguages)
+summary(repositoriesLanguages)
 
-languages <- table(dfPullRequests$language)
+# Only repositories with language set
+repositoriesLanguages <- repositoriesLanguages[repositoriesLanguages$language != '',]
+head(repositoriesLanguages)
+summary(repositoriesLanguages)
 
+# Language distribution
+languages <- table(repositoriesLanguages$language)
 head(languages)
 
-languagesNames <- names(languages)
-languagesNames
-ln <- languagesNames[2]
-ln
-dfPullRequests$id[dfPullRequests$language == ln]
-
-dfPullRequests <- dfPullRequests[
-  as.character(dfPullRequests$language) != as.character(dfPullRequests$id),]
-
-languages <- table(dfPullRequests$language)
+# Sort the languages
+languages <- sort(languages, decreasing = TRUE)
 head(languages)
+names(languages)
 
-languages <- languages[languages > 5]
-barplot(languages)
-languages <- sort(languages[languages > 5], decreasing=TRUE)
-languagesNames <- names(languages)
-languagesNames
-
-barplot(languages)
-
-rm(uniqueData)
-rm(pullRequestEvents)
-rm(ln)
-rm(languages)
-rm(languagesNames)
-rm(pullRequests)
-rm(dfPullRequests)
+# Diagram of language distribution
+barplot(languages[languages > 5])

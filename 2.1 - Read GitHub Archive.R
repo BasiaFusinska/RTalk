@@ -1,10 +1,9 @@
-
 library("rjson")
 
 
 readEvents <- function(file, eventName) {
-  lines <- readLines(file)
-  jsonEvents <- lapply(lines, fromJSON)
+  jsonLines <- readLines(file)
+  jsonEvents <- lapply(jsonLines, fromJSON)
 
   specificEvents <- Filter(function(e){ e$type == eventName}, jsonEvents)
   
@@ -12,10 +11,14 @@ readEvents <- function(file, eventName) {
 }
 
 readEventsLists <- function(file, eventNames) {
-  lines <- readLines(file)
-  jsonEvents <- lapply(lines, fromJSON)
+  jsonLines <- readLines(file)
+  jsonEvents <- lapply(jsonLines, fromJSON)
   
   specificEvents <- Filter(function(e){ e$type %in% eventNames}, jsonEvents)
   
   return(specificEvents)
+}
+
+readPR <- function(file) {
+  return(readEvents(file, 'PullRequestEvent'))
 }
